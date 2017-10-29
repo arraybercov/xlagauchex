@@ -14,7 +14,7 @@
 
   <script>
 
-// "use strict";
+"use strict";
 
 var time, scene, camera, renderer, controls;
 var width, height;
@@ -27,7 +27,7 @@ var listener, sound1, audioLoader;
 var clickableObjects;
 var mouse, raycaster, intersects;
 var i;
-var textureLoader, textureCube, equirectShader, equirectMaterial, skybox, params;
+var textureLoader, textureCube, equirectShader, equirectMaterial, textureEquirec;
 
 init();
 animate();
@@ -55,26 +55,21 @@ function init( )
 
   } );
 
-  // reflective object experiment
-
-  // skyboxMesh = new THREE.Mesh( new THREE.BoxBufferGeometry( 100, 100, 100 ), cubeMaterial );
-	// sceneCube.add( skyboxMesh );
-
   textureLoader = new THREE.TextureLoader();
 	textureEquirec = textureLoader.load( "textures/cloudsFleshSmall.jpg" );
 	textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
 	textureEquirec.magFilter = THREE.LinearFilter;
 	textureEquirec.minFilter = THREE.LinearMipMapLinearFilter;
 
-  equirectShader = THREE.ShaderLib[ "equirect" ];
-
-  equirectMaterial = new THREE.ShaderMaterial( {
-      fragmentShader: equirectShader.fragmentShader,
-      vertexShader: equirectShader.vertexShader,
-      uniforms: equirectShader.uniforms,
-      depthWrite: false,
-      side: THREE.BackSide
-  } );
+  // equirectShader = THREE.ShaderLib[ "equirect" ];
+  //
+  // equirectMaterial = new THREE.ShaderMaterial( {
+  //     fragmentShader: equirectShader.fragmentShader,
+  //     vertexShader: equirectShader.vertexShader,
+  //     uniforms: equirectShader.uniforms,
+  //     depthWrite: false,
+  //     side: THREE.BackSide
+  // } );
 
   loader = new THREE.ObjectLoader( );
   loader.load( 'models/laptop/laptopnowin.json', function ( laptop )
@@ -161,7 +156,7 @@ function onDocumentMouseMove( event ) {
       {
       for ( i = 0;  intersects.length > 0 && i < intersects.length; i++ )
         {
-          intersects[i].object.rotation.x = 0;
+          // intersects[i].object.rotation.x = 0;
         }
       }
     else
