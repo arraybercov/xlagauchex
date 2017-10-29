@@ -28,7 +28,6 @@ var clickableObjects;
 var mouse, raycaster, intersects;
 var i;
 
-
 init();
 animate();
 
@@ -56,11 +55,11 @@ function init( )
   } );
 
   loader = new THREE.ObjectLoader( );
-  loader.load( 'models/laptop/laptopnowin.json', function ( object )
+  loader.load( 'models/laptop/laptopnowin.json', function ( laptop )
     {
-      object.position.set( 0, -4, 12 );
-      object.scale.set( 4, 4, 4);
-      scene.add( object );
+      laptop.position.set( 0, -4, 12 );
+      laptop.scale.set( 4, 4, 4);
+      scene.add( laptop );
     }
   );
 
@@ -102,8 +101,8 @@ function init( )
 
     clickableObjects = [];
 
-    for( i = 0; i < 10; i++ )
-  {
+    // for( i = 0; i < 10; i++ )
+  // {
     sphereGeometryLink1 = new THREE.SphereGeometry( 1, 11, 2 );
     sphereGeometryMaterial = new THREE.MeshPhongMaterial( { color: 0x0033ff, specular: 0x555555, shininess: 10 } )
     linkMesh1 = new THREE.Mesh( sphereGeometryLink1, sphereGeometryMaterial );
@@ -111,9 +110,10 @@ function init( )
     linkMesh1.position.y = 5;
     scene.add( linkMesh1 );
     clickableObjects.push( linkMesh1 );
+
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-  }
+  // }
 }
 
 function onDocumentMouseMove( event ) {
