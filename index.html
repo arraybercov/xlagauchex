@@ -40,7 +40,7 @@ function init( )
   camera.position.x = -1;
   camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 
-  renderer = new THREE.WebGLRenderer ( );
+  renderer = new THREE.WebGLRenderer ( { antialias:true } );
   renderer.setSize( window.innerWidth, window.innerHeight );
   document.body.appendChild ( renderer.domElement );
   controls = new THREE.OrbitControls( camera, renderer.domElement );
