@@ -98,6 +98,8 @@ function init( )
     scene.add( fleshMesh );
     fleshMesh.add( sound1 );
 
+    clickableObjects = [];
+
     ceilingGeometry = new THREE.CubeGeometry( 10, 0.001, 10 );
     ceilingMaterial = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader( ).load ( 'img/clouds.jpg' ), side:
     THREE.DoubleSide } );
@@ -105,6 +107,7 @@ function init( )
     ceilingMesh.position.y = 1.5;
     // ceilingMesh.rotation.x = Math.PI / 2; // rotates object 90 degrees
     scene.add( ceilingMesh );
+    clickableObjects.push( ceilingMesh );
 
     ambientLight = new THREE.AmbientLight( 0xFFFFFF, 0.8 );
     light1 = new THREE.PointLight ( 0xFFFFFF, 1, 50 );
@@ -116,7 +119,7 @@ function init( )
     scene.add( light2 );
     scene.add( light3 );
 
-    clickableObjects = [];
+
 
     // for( i = 0; i < 10; i++ )
   // {
@@ -127,6 +130,7 @@ function init( )
     linkMesh1 = new THREE.Mesh( sphereGeometryLink1, sphereGeometryMaterial );
     linkMesh1.userData = { URL: "https://en.wikipedia.org/wiki/Deleuze_and_Guattari" };
     linkMesh1.position.y = 3;
+    linkMesh1.name = "soundcloudObject";
     scene.add( linkMesh1 );
     clickableObjects.push( linkMesh1 );
 
@@ -152,12 +156,12 @@ function onDocumentMouseMove( event ) {
     raycaster.setFromCamera( mouse, camera );
 		intersects = raycaster.intersectObjects( clickableObjects );
 
-    if( intersects.length > 0 )
+    if( intersects.length > 0 && intersects[0].object == linkMesh1 )
       {
-      for ( i = 0;  intersects.length > 0 && i < intersects.length; i++ )
-        {
-          // intersects[i].object.rotation.x = 0;
-        }
+      // for ( i = 0;  intersects.length > 0 && i < intersects.length; i++ )
+      //   {
+      //     intersects[i].object.rotation.x = 0;
+      //   }
       }
     else
       {
@@ -166,16 +170,9 @@ function onDocumentMouseMove( event ) {
 }
 
 function onDocumentMouseUp( event ) {
-    event.preventDefault( );
-    if( intersects.length > 0 )
-    {
-        //  for ( i = 0;  intersects.length > 0 && i < intersects.length; i++)
-        //  {
-            window.open( intersects[0].object.userData.URL );
-        //  }
-    }
-    else {
-
+    // event.preventDefault( );
+    if( intersects.length > 0 && intersects[0].object == linkMesh1 ) {
+        window.open( intersects[0].object.userData.URL );
     }
 }
 
