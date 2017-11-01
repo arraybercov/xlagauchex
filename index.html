@@ -26,8 +26,7 @@ var ambientLight, light1, light2, light3
 var listener, sound1, audioLoader;
 var clickableObjects;
 var mouse, raycaster, intersects;
-var i;
-var textureLoader, equirectMaterial, textureEquirec;
+var cubeCamera2;
 
 init();
 animate();
@@ -40,9 +39,12 @@ function init( )
   camera.position.x = -1;
   camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );
 
+
   renderer = new THREE.WebGLRenderer ( { antialias:true } );
   renderer.setSize( window.innerWidth, window.innerHeight );
+
   document.body.appendChild ( renderer.domElement );
+
   controls = new THREE.OrbitControls( camera, renderer.domElement );
 
   window.addEventListener ( 'resize', function( )
@@ -55,21 +57,9 @@ function init( )
 
   } );
 
-  textureLoader = new THREE.TextureLoader();
-	textureEquirec = textureLoader.load( "textures/cloudsFleshSmall.jpg" );
-	textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
-	textureEquirec.magFilter = THREE.LinearFilter;
-	textureEquirec.minFilter = THREE.LinearMipMapLinearFilter;
-
-  // equirectShader = THREE.ShaderLib[ "equirect" ];
-  //
-  // equirectMaterial = new THREE.ShaderMaterial( {
-  //     fragmentShader: equirectShader.fragmentShader,
-  //     vertexShader: equirectShader.vertexShader,
-  //     uniforms: equirectShader.uniforms,
-  //     depthWrite: false,
-  //     side: THREE.BackSide
-  // } );
+  cubeCamera2 = new THREE.CubeCamera( 1, 10000, 256 );
+  cubeCamera2.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
+  scene.add( cubeCamera2 );
 
   loader = new THREE.ObjectLoader( );
   loader.load( 'models/laptop/laptopnowin.json', function ( laptop )
@@ -126,9 +116,9 @@ function init( )
 
   // ( 1, 11, 2 );
     sphereGeometryLink1 = new THREE.SphereGeometry( 1, 12, 2 );
-    sphereGeometryMaterial = new THREE.MeshLambertMaterial( { envMap: textureEquirec } )
+    sphereGeometryMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubeCamera2.renderTarget.texture } );
     linkMesh1 = new THREE.Mesh( sphereGeometryLink1, sphereGeometryMaterial );
-    linkMesh1.userData = { URL: "https://en.wikipedia.org/wiki/Deleuze_and_Guattari" };
+    linkMesh1.userData = { URL: "https://soundcloud.com/lagauche" };
     linkMesh1.position.y = 3;
     linkMesh1.name = "soundcloudObject";
     scene.add( linkMesh1 );
@@ -199,6 +189,11 @@ function onDocumentMouseUp( event ) {
       light3.position.x = Math.sin( time * 3) * 30;
       light3.position.y = Math.cos( time * 4) * 40;
       light3.position.z = Math.sin( time * 5) * 30;
+
+      linkMesh1.visible = false;
+      cubeCamera2.position.copy( cubeCamera2.position );
+      cubeCamera2.update( renderer, scene );
+      linkMesh1.visible = true;
 
       renderer.render( scene, camera );
     }
