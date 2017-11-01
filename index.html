@@ -90,12 +90,12 @@ function init( )
 
     clickableObjects = [];
 
-    ceilingGeometry = new THREE.CubeGeometry( 10, 0.001, 10 );
+    ceilingGeometry = new THREE.PlaneGeometry( 10, 10 );
     ceilingMaterial = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader( ).load ( 'img/clouds.jpg' ), side:
     THREE.DoubleSide } );
     ceilingMesh = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
     ceilingMesh.position.y = 1.5;
-    // ceilingMesh.rotation.x = Math.PI / 2; // rotates object 90 degrees
+    ceilingMesh.rotation.x = Math.PI / 2; // rotates object 90 degrees
     scene.add( ceilingMesh );
     clickableObjects.push( ceilingMesh );
 
@@ -109,12 +109,6 @@ function init( )
     scene.add( light2 );
     scene.add( light3 );
 
-
-
-    // for( i = 0; i < 10; i++ )
-  // {
-
-  // ( 1, 11, 2 );
     sphereGeometryLink1 = new THREE.SphereGeometry( 1, 12, 2 );
     sphereGeometryMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubeCamera2.renderTarget.texture } );
     linkMesh1 = new THREE.Mesh( sphereGeometryLink1, sphereGeometryMaterial );
@@ -124,18 +118,9 @@ function init( )
     scene.add( linkMesh1 );
     clickableObjects.push( linkMesh1 );
 
-    // params = { Equirectangular: function () {
-    //         cubeMesh.material = equirectMaterial;
-    //         cubeMesh.visible = true;
-    //         sphereMaterial.envMap = textureEquirec;
-    //         sphereMaterial.needsUpdate = true;
-    //       },
-    //         Refraction: false
-    //       };
-
     document.addEventListener( 'mouseup', onDocumentMouseUp, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-  // }
+
 }
 
 function onDocumentMouseMove( event ) {
@@ -156,11 +141,12 @@ function onDocumentMouseMove( event ) {
     else
       {
         linkMesh1.rotation.x += 0.1;
+        ceilingMesh.rotation.z += 0.02;
       }
 }
 
 function onDocumentMouseUp( event ) {
-    // event.preventDefault( );
+    event.preventDefault( );
     if( intersects.length > 0 && intersects[0].object == linkMesh1 ) {
         window.open( intersects[0].object.userData.URL );
     }
