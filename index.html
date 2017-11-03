@@ -141,7 +141,7 @@ function onDocumentMouseMove( event ) {
     else
       {
         linkMesh1.rotation.x += 0.1;
-        ceilingMesh.rotation.z += 0.02;
+        // ceilingMesh.rotation.z += 0.02;
       }
 }
 
@@ -175,6 +175,23 @@ function onDocumentMouseUp( event ) {
       light3.position.x = Math.sin( time * 3) * 30;
       light3.position.y = Math.cos( time * 4) * 40;
       light3.position.z = Math.sin( time * 5) * 30;
+
+      // ceilingMesh.rotation.y = Math.cos( time * 1) + 0;
+
+
+
+      ceilingMesh.geometry.vertices[0].set(
+        Math.sin( time * 1 ) + -5,
+        5,
+        0 );
+
+      ceilingMesh.geometry.vertices[3].set(
+        5,
+        -5,
+        Math.sin( time * 1.3 ) );
+
+  ceilingMesh.geometry.verticesNeedUpdate = true;
+
 
       linkMesh1.visible = false;
       cubeCamera2.position.copy( cubeCamera2.position );
