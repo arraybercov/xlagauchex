@@ -68,18 +68,18 @@ function init( )
       laptopv = laptop;
       laptopv.position.set( 0, -4, 12 );
       laptopv.scale.set( 4, 4, 4);
-      laptopv.children[0].children[3].visible = true;
-
-      // laptopScreen = laptopv.children[0].children[3].clone();
-      // laptopv.children[0].add(laptopScreen)
-      // laptopScreen.visible = true;
+      laptopv.children[0].children[3].visible = false;
+      laptopScreen = laptopv.children[0].children[3].clone();
+      laptopv.children[0].add(laptopScreen)
+      laptopScreen.visible = true;
+      // laptopScreen.material.map.minFilter = THREE.LinearFilter;
       // laptopScreen.material.color.setHex( 0xffff00 );
-      //
+
       // laptopScreen.position.y = 2;
       // laptopScreen.position.z = 1;
       // laptopScreen.material.transparent = true;
       // laptopScreen.material.opacity = 0.7;
-      // laptopScreen.material.shininess = 100;
+      laptopScreen.material.shininess = 100;
       scene.add( laptopv );
       // scene.add( laptopScreen )
       // laptopScreen.scale.set( 0.2, 0.2, 0.2);
@@ -101,7 +101,7 @@ function init( )
   );
 
     fleshGeometry = new THREE.IcosahedronGeometry( 1, 1, 1 );
-    fleshMaterial = new THREE.MeshLambertMaterial ( { map: new THREE.TextureLoader( ).load( 'img/internalFlesh.jpg' ), side: THREE.DoubleSide } );
+    fleshMaterial = new THREE.MeshLambertMaterial ( { map: new THREE.TextureLoader( ).load( 'textures/internalFleshPo2.jpg' ), side: THREE.DoubleSide } );
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
     scene.add( fleshMesh );
     fleshMesh.add( sound1 );
@@ -109,7 +109,7 @@ function init( )
     clickableObjects = [];
 
     ceilingGeometry = new THREE.PlaneGeometry( 10, 10 );
-    ceilingMaterial = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader( ).load ( 'img/clouds.jpg' ), side:
+    ceilingMaterial = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader( ).load ( 'textures/cloudsPo2.jpg' ), side:
     THREE.DoubleSide } );
     ceilingMesh = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
     ceilingMesh.position.y = 1.5;
