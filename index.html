@@ -202,11 +202,11 @@ function onDocumentMouseUp( event ) {
 function onDocumentMouseDown( event ) {
     event.preventDefault( );
     if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
-        if( sound1.isPlaying == false ) {
-          sound1.play( );
+        if( sound1.isPlaying ) {
+          sound1.stop( );
         }
         else {
-          sound1.stop( );
+          sound1.play( );
         }
     }
 }
