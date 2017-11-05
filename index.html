@@ -203,12 +203,12 @@ function onDocumentMouseDown( event ) {
     // event.preventDefault( );
     if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
         // var isPlayingTrue = sound1.isplaying = true;
-        if( sound1.isPlaying == true ) {
-          sound1.stop( );
+        if( !sound1.isPlaying) {
+          sound1.play( );
         }
         else {
 
-          sound1.play( );
+          sound1.stop( );
         }
     }
 }
