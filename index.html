@@ -98,12 +98,11 @@ function init( )
     {
   	   sound1.setBuffer( buffer );
   	   sound1.setRefDistance( 4 );
-       sound1.hasPlaybackControl = true;
-      //  sound1.autoplay = true;
-  	   sound1.play( );
     }
   );
-
+  // sound1.hasPlaybackControl = true;
+  // sound1.play( );
+  sound1.autoplay = true;
 
 
     objLoader = new THREE.OBJLoader( );
