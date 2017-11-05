@@ -74,8 +74,6 @@ function init( )
       laptopScreen = laptopv.children[0].children[3].clone();
       laptopv.children[0].add(laptopScreen)
       laptopScreen.visible = true;
-      // laptopScreen.material.map.minFilter = THREE.LinearFilter;
-      // laptopScreen.material.color.setHex( 0xffff00 );
 
       // laptopScreen.position.y = 2;
       // laptopScreen.position.z = 1;
@@ -119,8 +117,8 @@ function init( )
       clickableObjects.push( playButton.children[0] );
 
       // laptopv.children[0].add(laptopScreen)
-      playButton.scale.set( 0.6, 0.6, 0.6);
-      playButton.position.set(7, -4, -3);
+      playButton.scale.set( 0.8, 0.8, 0.8);
+      playButton.position.set(7, 0, -3);
       playButton.rotation.set(-140, 0, 0);
     } );
 
@@ -205,11 +203,11 @@ function onDocumentMouseUp( event ) {
 function onDocumentMouseDown( event ) {
     event.preventDefault( );
     if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
-        if( sound1.isPlaying == true ) {
-          sound1.stop( );
+        if( sound1.isPlaying == false ) {
+          sound1.play( );
         }
         else {
-          sound1.play( );
+          sound1.stop( );
         }
     }
 }
