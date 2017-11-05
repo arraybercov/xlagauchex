@@ -105,20 +105,24 @@ function init( )
   sound1.autoplay = false;
 
 
-    objLoader = new THREE.OBJLoader( );
-    objLoader.load( 'models/OBJ/High.obj', function ( button ) {
+    objLoader = new THREE.ObjectLoader( );
+    objLoader.load( 'models/button.json', function ( button ) {
       playButton = button;
-      scene.add ( playButton );
+      // scene.add ( playButton );
     playButton.children[0].material = new THREE.MeshPhongMaterial( {
-      map: new THREE.TextureLoader( ).load( 'textures/internalFleshPo2.jpg' ),
+      map: new THREE.TextureLoader( ).load( 'textures/cloudsPo2.jpg' ),
       side: THREE.DoubleSide } );
 
       clickableObjects.push( playButton.children[0] );
 
       // laptopv.children[0].add(laptopScreen)
-      playButton.scale.set( 1, 1, 1);
-      playButton.position.set(7, 0, -1);
+
+      camera.add ( playButton );
+      scene.add ( camera );
+      playButton.scale.set( 7, 7, 7);
+      playButton.position.set( 0.2, -0.2, -0.4);
       playButton.rotation.set(-140, 0, 0);
+
     } );
 
   //   playButton = new THREE.Mesh ( new THREE.SphereGeometry( 1, 20, 20),
