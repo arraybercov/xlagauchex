@@ -108,10 +108,13 @@ function init( )
     objLoader = new THREE.ObjectLoader( );
     objLoader.load( 'models/button.json', function ( button ) {
       playButton = button;
-      // scene.add ( playButton );
-    playButton.children[0].material = new THREE.MeshPhongMaterial( {
-      map: new THREE.TextureLoader( ).load( 'textures/cloudsPo2.jpg' ),
-      side: THREE.DoubleSide } );
+    // playButton.children[0].material = new THREE.MeshPhongMaterial( {
+    //   map: new THREE.TextureLoader( ).load( 'textures/cloudsPo2.jpg' ),
+    //   side: THREE.DoubleSide } );
+
+
+
+      playButton.children[0].material = new THREE.MeshPhongMaterial( { color: 0xffffff, envMap: cubeCamera2.renderTarget.texture } );
 
       clickableObjects.push( playButton.children[0] );
 
@@ -121,7 +124,7 @@ function init( )
       scene.add ( camera );
       playButton.scale.set( 7, 7, 7);
       playButton.position.set( 0.2, -0.2, -0.4);
-      playButton.rotation.set(-140, 0, 0);
+      playButton.rotation.set( Math.PI / 2.2, 0, 0.2);
 
     } );
 
@@ -256,7 +259,10 @@ function onDocumentMouseDown( event ) {
       linkMesh1.visible = true;
 
       if ( playButton ){
-      playButton.children[0].rotation.set( Math.sin ( time * 0.5), Math.cos( time * 0.8 ), Math.sin ( time * 1 ) );
+      // playButton.children[0].rotation.set( Math.sin ( time * 0.5), Math.cos( time * 0.8 ), Math.sin ( time * 1 ) );
+      playButton.children[0].rotation.z = Math.sin ( time * 1 ) * 0.6;
+      playButton.children[0].rotation.y = Math.sin ( time * 1 ) * 0.4;
+      playButton.children[0].rotation.x += Math.cos ( time * 1 ) * 0.02;
     }
       renderer.render( scene, camera );
     }
