@@ -91,9 +91,9 @@ function init( )
 
   clickableObjects = [];
 
-  listener = new THREE.AudioListener( ); // create an AudioListener and add it to the camera
+  listener = new THREE.AudioListener( );
   camera.add( listener );
-  sound1 = new THREE.PositionalAudio( listener ); // create the PositionalAudio object (passing in the listener)
+  sound1 = new THREE.PositionalAudio( listener );
   audioLoader = new THREE.AudioLoader( );
   audioLoader.load( 'sounds/Love_1.mp3', function( buffer ) // load a sound and set it as the PositionalAudio object's buffer
     {
