@@ -10,6 +10,7 @@
 <body>
 
   <script src="js/three.js"></script>
+    <script src="js/OBJLoader.js"></script>
   <script src="js/OrbitControls.js"></script>
 
   <script>
@@ -28,6 +29,7 @@ var clickableObjects;
 var mouse, raycaster, intersects;
 var cubeCamera2;
 var laptopv, laptopScreen;
+var playButton, objLoader;
 
 init();
 animate();
@@ -88,6 +90,8 @@ function init( )
     }
   );
 
+  clickableObjects = [];
+
   listener = new THREE.AudioListener( ); // create an AudioListener and add it to the camera
   camera.add( listener );
   sound1 = new THREE.PositionalAudio( listener ); // create the PositionalAudio object (passing in the listener)
@@ -102,13 +106,38 @@ function init( )
     }
   );
 
+
+
+    objLoader = new THREE.OBJLoader( );
+    objLoader.load( 'models/OBJ/High.obj', function ( button ) {
+      playButton = button;
+      scene.add ( playButton );
+    playButton.children[0].material = new THREE.MeshPhongMaterial( {
+      map: new THREE.TextureLoader( ).load( 'textures/internalFleshPo2.jpg' ),
+      side: THREE.DoubleSide } );
+
+      clickableObjects.push( playButton.children[0] );
+
+      // laptopv.children[0].add(laptopScreen)
+      playButton.scale.set( 0.6, 0.6, 0.6);
+      playButton.position.set(7, -4, -3);
+      playButton.rotation.set(-140, 0, 0);
+    } );
+
+  //   playButton = new THREE.Mesh ( new THREE.SphereGeometry( 1, 20, 20),
+  //   new THREE.MeshBasicMaterial( {color: 0xff00ff, wireframe: true } )
+  // );
+  //   playButton.position.set(11, -4, -6);
+  //   scene.add ( playButton );
+  //   clickableObjects.push( playButton );
+
     fleshGeometry = new THREE.IcosahedronGeometry( 1, 1, 1 );
     fleshMaterial = new THREE.MeshLambertMaterial ( { map: new THREE.TextureLoader( ).load( 'textures/internalFleshPo2.jpg' ), side: THREE.DoubleSide } );
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
     scene.add( fleshMesh );
     fleshMesh.add( sound1 );
 
-    clickableObjects = [];
+
 
     ceilingGeometry = new THREE.PlaneGeometry( 10, 10 );
     ceilingMaterial = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader( ).load ( 'textures/cloudsPo2.jpg' ), side:
@@ -139,6 +168,7 @@ function init( )
     clickableObjects.push( linkMesh1 );
 
     document.addEventListener( 'mouseup', onDocumentMouseUp, false );
+    document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 }
@@ -149,7 +179,7 @@ function onDocumentMouseMove( event ) {
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
     raycaster = new THREE.Raycaster( );
     raycaster.setFromCamera( mouse, camera );
-		intersects = raycaster.intersectObjects( clickableObjects );
+		intersects = raycaster.intersectObjects( clickableObjects, false );
 
     if( intersects.length > 0 && intersects[0].object == linkMesh1 )
       {
@@ -169,6 +199,18 @@ function onDocumentMouseUp( event ) {
     event.preventDefault( );
     if( intersects.length > 0 && intersects[0].object == linkMesh1 ) {
         window.open( intersects[0].object.userData.URL );
+    }
+}
+
+function onDocumentMouseDown( event ) {
+    event.preventDefault( );
+    if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
+        if( sound1.isPlaying == true ) {
+          sound1.stop( );
+        }
+        else {
+          sound1.play( );
+        }
     }
 }
 
@@ -217,6 +259,10 @@ function onDocumentMouseUp( event ) {
       cubeCamera2.position.copy( cubeCamera2.position );
       cubeCamera2.update( renderer, scene );
       linkMesh1.visible = true;
+
+      if ( playButton ){
+      playButton.children[0].rotation.set( Math.sin ( time * 0.5), Math.cos( time * 0.8 ), Math.sin ( time * 1 ) );
+    }
 
       renderer.render( scene, camera );
     }
