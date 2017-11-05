@@ -206,8 +206,7 @@ function onDocumentMouseUp( event ) {
 function onDocumentMouseDown( event ) {
     // event.preventDefault( );
     if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
-        // var isPlayingTrue = sound1.isplaying = true;
-        if( !sound1.isPlaying) {
+        if( !sound1.isPlaying ) {
           sound1.play( );
         }
         else {
@@ -224,7 +223,6 @@ function onDocumentMouseDown( event ) {
       fleshMesh.rotation.y += 0.005;
 
       linkMesh1.rotation.y += 0.005;
-      // linkMesh1.rotation.x += 0.0005;
 
       time = Date.now( ) * 0.0005;
 
@@ -240,10 +238,6 @@ function onDocumentMouseDown( event ) {
       light3.position.y = Math.cos( time * 4) * 40;
       light3.position.z = Math.sin( time * 5) * 30;
 
-      // ceilingMesh.rotation.y = Math.cos( time * 1) + 0;
-
-
-
       ceilingMesh.geometry.vertices[0].set(
         Math.sin( time * 1 ) + -5,
         Math.cos( time * 1 ) * 0.2 + 5.2,
@@ -256,7 +250,6 @@ function onDocumentMouseDown( event ) {
 
   ceilingMesh.geometry.verticesNeedUpdate = true;
 
-
       linkMesh1.visible = false;
       cubeCamera2.position.copy( cubeCamera2.position );
       cubeCamera2.update( renderer, scene );
@@ -265,7 +258,6 @@ function onDocumentMouseDown( event ) {
       if ( playButton ){
       playButton.children[0].rotation.set( Math.sin ( time * 0.5), Math.cos( time * 0.8 ), Math.sin ( time * 1 ) );
     }
-
       renderer.render( scene, camera );
     }
 
