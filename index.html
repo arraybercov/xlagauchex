@@ -203,7 +203,7 @@ function onDocumentMouseUp( event ) {
 }
 
 function onDocumentMouseDown( event ) {
-    event.preventDefault( );
+  
     if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
         if( sound1.isPlaying == true ) {
           sound1.stop( );
