@@ -31,6 +31,7 @@ var cubeCamera2;
 var laptopv, laptopScreen;
 var playButton, objLoader;
 
+
 init();
 animate();
 
@@ -163,7 +164,7 @@ function init( )
     scene.add( light3 );
 
     sphereGeometryLink1 = new THREE.SphereGeometry( 1, 12, 2 );
-    sphereGeometryMaterial = new THREE.MeshBasicMaterial( { color: 0xffffff, envMap: cubeCamera2.renderTarget.texture } );
+    sphereGeometryMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, envMap: cubeCamera2.renderTarget.texture } );
     linkMesh1 = new THREE.Mesh( sphereGeometryLink1, sphereGeometryMaterial );
     linkMesh1.userData = { URL: "https://soundcloud.com/lagauche" };
     linkMesh1.position.y = 3;
@@ -185,17 +186,19 @@ function onDocumentMouseMove( event ) {
     raycaster.setFromCamera( mouse, camera );
 		intersects = raycaster.intersectObjects( clickableObjects, false );
 
-    if( intersects.length > 0 && intersects[0].object == linkMesh1 )
-      {
-      // for ( i = 0;  intersects.length > 0 && i < intersects.length; i++ )
-      //   {
-      //     intersects[i].object.rotation.x = 0;
-      //   }
+    if( intersects.length > 0 && intersects[0].object == linkMesh1 ) {
+        sphereGeometryMaterial.color.set(0xff00ff);
       }
     else
       {
         linkMesh1.rotation.x += 0.1;
-        // ceilingMesh.rotation.z += 0.02;
+        sphereGeometryMaterial.color.set(0xffffff);
+      }
+      if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
+        playButton.children[0].material.color.set(0xff00ff);
+      }
+      else {
+        playButton.children[0].material.color.set(0xffffff);
       }
 }
 
@@ -253,16 +256,27 @@ function onDocumentMouseDown( event ) {
 
   ceilingMesh.geometry.verticesNeedUpdate = true;
 
-      linkMesh1.visible = false;
-      cubeCamera2.position.copy( cubeCamera2.position );
-      cubeCamera2.update( renderer, scene );
-      linkMesh1.visible = true;
+
+      //
+      // linkMesh1.visible = false;
+      // camera.children[1].visible = false;
+      // cubeCamera2.position.copy( cubeCamera2.position );
+      // cubeCamera2.update( renderer, scene );
+      // linkMesh1.visible = true;
+      // camera.children[1].visible = true;
 
       if ( playButton ){
       // playButton.children[0].rotation.set( Math.sin ( time * 0.5), Math.cos( time * 0.8 ), Math.sin ( time * 1 ) );
       playButton.children[0].rotation.z = Math.sin ( time * 1 ) * 0.6;
       playButton.children[0].rotation.y = Math.sin ( time * 1 ) * 0.4;
       playButton.children[0].rotation.x += Math.cos ( time * 1 ) * 0.02;
+
+      linkMesh1.visible = false;
+      camera.children[1].visible = false;
+      cubeCamera2.position.copy( cubeCamera2.position );
+      cubeCamera2.update( renderer, scene );
+      linkMesh1.visible = true;
+      camera.children[1].visible = true;
     }
       renderer.render( scene, camera );
     }
