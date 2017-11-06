@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
@@ -150,20 +151,21 @@ function init( )
     document.body.appendChild ( renderer.domElement );
     controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-    window.addEventListener ( 'resize', onWindowResize, false );
-
     document.addEventListener( 'mouseup', onDocumentMouseUp, false );
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
+    window.addEventListener ( 'resize', onWindowResize, false );
 }
 
 function onWindowResize( )
 {
+  renderer.setSize( window.innerWidth, window.innerHeight );
+
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix( );
 
-  renderer.setSize( window.innerWidth, window.innerHeight );
+
 }
 
 function onDocumentMouseMove( event ) {
@@ -276,6 +278,6 @@ function onDocumentMouseDown( event ) {
     }
 
 
-</script>
-</body>
+      </script>
+  </body>
 </html>
