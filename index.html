@@ -36,7 +36,6 @@ var laptopv, laptopScreen;
 var playButton, objLoader;
 var fleshAudioSender;
 
-
 init( );
 animate( );
 
@@ -247,7 +246,6 @@ function onDocumentMouseDown( event ) {
   ceilingMesh.geometry.verticesNeedUpdate = true;
 
       if ( playButton ) {
-
       playButton.children[0].rotation.z = Math.sin ( time * 1 ) * 0.6;
       playButton.children[0].rotation.y = Math.sin ( time * 1 ) * 0.4;
       playButton.children[0].rotation.x += Math.cos ( time * 1 ) * 0.02;
