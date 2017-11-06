@@ -146,7 +146,7 @@ function init( )
     clickableObjects.push( linkMesh1 );
 
     renderer = new THREE.WebGLRenderer ( { antialias:true } );
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild ( renderer.domElement );
     controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -214,6 +214,9 @@ function onDocumentMouseDown( event ) {
     function animate( )
     {
       requestAnimationFrame( animate );
+      render( );
+
+    function render( ) {
 
       fleshMesh.rotation.x += 0.02;
       fleshMesh.rotation.y += 0.005;
@@ -275,9 +278,7 @@ function onDocumentMouseDown( event ) {
       camera.children[1].visible = true;
     }
       renderer.render( scene, camera );
-    }
-
-
+  }
       </script>
   </body>
 </html>
