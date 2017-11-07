@@ -40,6 +40,7 @@ var laptopv, laptopScreen;
 var playButton, objLoader;
 var fleshAudioSender;
 var screenDisplay;
+var fleshTexture, fleshHeight;
 
 init( );
 animate( );
@@ -57,6 +58,10 @@ function init( )
   cubeCamera2.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
   scene.add( cubeCamera2 );
 
+  fleshTexture = new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' );
+  fleshHeight = new THREE.TextureLoader( ).load( 'textures/internalFleshBumpMap.jpg' );
+
+
   loader = new THREE.ObjectLoader( );
   loader.load( 'models/laptop/laptopNoScreen.json', function ( laptop )
     {
@@ -66,8 +71,7 @@ function init( )
       // laptopv.children[0].children[6].material.map.minFilter = THREE.LinearFilter;
       // laptopv.children[0].children[6].material.map.magFilter = THREE.LinearFilter;
       // laptopv.children[0].children[6].material.map.format = THREE.RGBFormat;
-      laptopv.children[0].children[6].material = new THREE.MeshBasicMaterial ( { map: new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' ), side: THREE.BackSide } );
-      // laptopv.children[0].children[6].material.side = THREE.BackSide;
+      laptopv.children[0].children[6].material = new THREE.MeshPhongMaterial ( { map: fleshTexture, bumpMap: fleshHeight, transparent: false, side: THREE.BackSide } );
       laptopv.position.set( 0, -4, 12 );
       laptopv.scale.set( 4, 4, 4);
       scene.add( laptopv );
@@ -112,7 +116,7 @@ function init( )
     scene.add( fleshAudioSender );
 
     fleshGeometry = new THREE.IcosahedronBufferGeometry( 1, 1);
-    fleshMaterial = new THREE.MeshLambertMaterial ( { map: new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' ), side: THREE.DoubleSide } );
+    fleshMaterial = new THREE.MeshLambertMaterial ( { map: fleshTexture, side: THREE.DoubleSide } );
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
     // fleshMesh.add( sound1 );
     scene.add( fleshMesh );
@@ -213,14 +217,17 @@ function onDocumentMouseDown( event ) {
 
       requestAnimationFrame( animate );
 
+      time = Date.now( ) * 0.0005;
+
       fleshMesh.rotation.x += 0.02;
       fleshMesh.rotation.y += 0.005;
 
-      fleshMesh.scale.set(Math.sin( time * 2) * 0.08 + 0.95, Math.cos( time * 8) * 0.08 + 0.95, Math.sin( time * 7) * 0.08 + 0.95);
+      // fleshMesh.scale.set(Math.sin( time * 2 ) * 0.08 + 0.95, Math.cos( time * 8) * 0.08 + 0.95, Math.sin( time * 7) * 0.08 + 0.95);
+      // fleshMesh.material.bumpScale = Math.cos( time * 0.2 );
 
       linkMesh1.rotation.y += 0.005;
 
-      time = Date.now( ) * 0.0005;
+
 
       light1.position.x = Math.sin( time * 2) * 30;
       light1.position.y = Math.cos( time * 8) * 40;
@@ -245,6 +252,10 @@ function onDocumentMouseDown( event ) {
         Math.sin( time * 1.3 ) * 0.3);
 
   ceilingMesh.geometry.verticesNeedUpdate = true;
+
+      if ( laptopv ) {
+        laptopv.children[0].children[6].material.opacity = Math.cos ( time * 2 ) * 0.5 + 0.9;
+      }
 
       if ( playButton ) {
       playButton.children[0].rotation.z = Math.sin ( time * 1 ) * 0.6;
