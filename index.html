@@ -17,7 +17,7 @@
   <script src="js/OBJLoader.js"></script>
   <script src="js/OrbitControls.js"></script>
 
-  <video id="screen" webkit-playsinline style="display:none"
+  <video id="screen" autoplay loop playsinline style="display:none"
       src="video/fleshVid1.mp4" type="video/mp4" autoplay="true" loop="true">
   </video>
 
@@ -39,6 +39,7 @@ var cubeCamera2;
 var laptopv, laptopScreen;
 var playButton, objLoader;
 var fleshAudioSender;
+var screenDisplay;
 
 init( );
 animate( );
@@ -64,7 +65,7 @@ function init( )
       laptopv.children[0].children[3].material = new THREE.MeshBasicMaterial( { map: new THREE.VideoTexture( screenDisplay ), side: THREE.BackSide } );
       laptopv.children[0].children[3].material.map.minFilter = THREE.LinearFilter;
       laptopv.children[0].children[3].material.map.magFilter = THREE.LinearFilter;
-      // laptopv.children[0].children[3].material.map.format = THREE.RGBFormat;
+      laptopv.children[0].children[3].material.map.format = THREE.RGBFormat;
       laptopv.position.set( 0, -4, 12 );
       laptopv.scale.set( 4, 4, 4);
       scene.add( laptopv );
