@@ -118,8 +118,9 @@ function init( )
     scene.add( fleshAudioSender );
 
     fleshGeometry = new THREE.IcosahedronGeometry( 1, 1);
-    fleshTextureClone.needsUpdate = true;
+    
     fleshMaterial = new THREE.MeshLambertMaterial ( { map: fleshTextureClone, side: THREE.DoubleSide } );
+    fleshTextureClone.needsUpdate = true;
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
     // fleshMesh.add( sound1 );
     scene.add( fleshMesh );
