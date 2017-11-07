@@ -61,9 +61,9 @@ function init( )
   fleshTexture = new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' );
   fleshTextureClone = fleshTexture.clone( );
 
-  if ( fleshTexture.image.complete === true ) {
+ // if ( fleshTexture.image.complete === true ) {
 	  fleshTextureClone.needsUpdate = true;
-  }
+ // }
 	  
   fleshHeight = new THREE.TextureLoader( ).load( 'textures/internalFleshBumpMap.jpg' );
 
