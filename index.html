@@ -77,7 +77,7 @@ if ( fleshTextureClone ) {
       // laptopv.children[0].children[6].material.map.magFilter = THREE.LinearFilter;
       // laptopv.children[0].children[6].material.map.format = THREE.RGBFormat;
       laptopv.children[0].children[6].material = new THREE.MeshPhongMaterial ( { 
-		map: fleshTexture, bumpMap: fleshHeight, bumpScale: 0.4, shininess: 0, side: THREE.BackSide } );
+	map: fleshTexture, bumpMap: fleshHeight, bumpScale: 0.4, shininess: 8, side: THREE.BackSide } );
       laptopv.position.set( 0, -4, 12 );
       laptopv.scale.set( 4, 4, 4);
       scene.add( laptopv );
