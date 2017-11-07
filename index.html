@@ -17,6 +17,10 @@
   <script src="js/OBJLoader.js"></script>
   <script src="js/OrbitControls.js"></script>
 
+  <video id="screen" autoplay loop playsinline style="display:none"
+      src="video/fleshVid1.mp4" type="video/mp4" autoplay="true" loop="true">
+  </video>
+
   <script>
 
 "use strict";
@@ -56,22 +60,17 @@ function init( )
   loader.load( 'models/laptop/laptopnowin.json', function ( laptop )
     {
       laptopv = laptop;
+      screenDisplay = document.getElementById( 'screen' );
+      laptopv.children[0].children[3].material = new THREE.MeshBasicMaterial( { map: new THREE.VideoTexture( screenDisplay ), side: THREE.BackSide } );
+      laptopv.children[0].children[3].material.map.minFilter = THREE.LinearFilter;
+      laptopv.children[0].children[3].material.map.magFilter = THREE.LinearFilter;
+      laptopv.children[0].children[3].material.map.format = THREE.RGBFormat;
       laptopv.position.set( 0, -4, 12 );
       laptopv.scale.set( 4, 4, 4);
       scene.add( laptopv );
-      // laptopv.children[0].children[3].visible = false;
       // laptopScreen = laptopv.children[0].children[3].clone();
       // laptopv.children[0].add(laptopScreen)
-      // laptopScreen.visible = true;
-
-      // laptopScreen.position.y = 2;
-      // laptopScreen.position.z = 1;
-      // laptopScreen.material.transparent = true;
-      // laptopScreen.material.opacity = 0.7;
-      // laptopScreen.material.shininess = 100;
       // scene.add( laptopScreen )
-      // laptopScreen.scale.set( 0.2, 0.2, 0.2);
-      // laptopScreen.position.set( 0, 0, 0 );
     }
   );
 
@@ -102,7 +101,6 @@ function init( )
       playButton.scale.set( 7, 7, 7);
       playButton.position.set( 0.2, -0.2, -0.4);
       playButton.rotation.set( Math.PI / 2.2, 0, 0.2);
-
     } );
 
     fleshAudioSender = new THREE.Mesh( new THREE.IcosahedronGeometry( 0.95, 1) );
