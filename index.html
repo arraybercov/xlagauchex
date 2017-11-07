@@ -61,7 +61,7 @@ function init( )
   fleshTexture = new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' );
   fleshTextureClone = fleshTexture.clone( );
 
-if ( fleshTexture ) {
+if ( fleshTextureClone ) {
       fleshTextureClone.needsUpdate = true;
   }
   fleshHeight = new THREE.TextureLoader( ).load( 'textures/internalFleshBumpMap.jpg' );
@@ -259,9 +259,9 @@ if ( fleshMesh ){
 
   ceilingMesh.geometry.verticesNeedUpdate = true;
 
-      if ( laptopv ) {
-        laptopv.children[0].children[6].material.opacity = Math.cos ( time * 2 ) * 0.5 + 0.9;
-      }
+     // if ( laptopv ) {
+     //   laptopv.children[0].children[6].material.opacity = Math.cos ( time * 2 ) * 0.5 + 0.9;
+     // }
 
       if ( playButton ) {
       playButton.children[0].rotation.z = Math.sin ( time * 1 ) * 0.6;
