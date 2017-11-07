@@ -226,7 +226,7 @@ function onDocumentMouseDown( event ) {
 
       time = Date.now( ) * 0.0005;
 
-if ( fleshTexture && fleshMesh && laptopv  ){
+if (  fleshMesh ) {
       fleshMesh.rotation.x += 0.02;
       fleshMesh.rotation.y += 0.005;
       fleshMesh.scale.set(Math.sin( time * 2 ) * 0.08 + 0.95, Math.cos( time * 8) * 0.08 + 0.95, Math.sin( time * 7) * 0.08 + 0.95);
@@ -264,7 +264,7 @@ if ( fleshTexture && fleshMesh && laptopv  ){
      //   laptopv.children[0].children[6].material.opacity = Math.cos ( time * 2 ) * 0.5 + 0.9;
      // }
 
-      if ( playButton && cubeCamera2 ) {
+      if ( playButton ) {
       playButton.children[0].rotation.z = Math.sin ( time * 1 ) * 0.6;
       playButton.children[0].rotation.y = Math.sin ( time * 1 ) * 0.4;
       playButton.children[0].rotation.x += Math.cos ( time * 1 ) * 0.02;
