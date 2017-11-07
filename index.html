@@ -61,7 +61,7 @@ function init( )
   fleshTexture = new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' );
   fleshTextureClone = fleshTexture.clone( );
 
-  if ( fleshTexture.texture.image.complete === true ) {
+  if ( fleshTexture.image.complete === true ) {
 	  fleshTextureClone.needsUpdate = true;
   }
 	  
