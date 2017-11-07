@@ -71,7 +71,7 @@ function init( )
       // laptopv.children[0].children[6].material.map.minFilter = THREE.LinearFilter;
       // laptopv.children[0].children[6].material.map.magFilter = THREE.LinearFilter;
       // laptopv.children[0].children[6].material.map.format = THREE.RGBFormat;
-      laptopv.children[0].children[6].material = new THREE.MeshPhongMaterial ( { map: fleshTexture, bumpMap: fleshHeight, transparent: false, side: THREE.BackSide } );
+      laptopv.children[0].children[6].material = new THREE.MeshPhongMaterial ( { map: fleshTexture, bumpMap: fleshHeight, shininess: 10, side: THREE.BackSide } );
       laptopv.position.set( 0, -4, 12 );
       laptopv.scale.set( 4, 4, 4);
       scene.add( laptopv );
