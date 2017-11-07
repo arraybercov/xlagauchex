@@ -40,7 +40,7 @@ var laptopv, laptopScreen;
 var playButton, objLoader;
 var fleshAudioSender;
 var screenDisplay;
-var fleshTexture, fleshHeight;
+var fleshTexture, fleshTextureClone, fleshHeight;
 
 init( );
 animate( );
@@ -59,6 +59,11 @@ function init( )
   scene.add( cubeCamera2 );
 
   fleshTexture = new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' );
+  fleshTextureClone = fleshTexture.clone( );
+
+if ( fleshTextureClone ) {
+      fleshTextureClone.needsUpdate = true;
+  }
   fleshHeight = new THREE.TextureLoader( ).load( 'textures/internalFleshBumpMap.jpg' );
 
 
@@ -116,7 +121,7 @@ function init( )
     scene.add( fleshAudioSender );
 
     fleshGeometry = new THREE.IcosahedronBufferGeometry( 1, 1);
-    fleshMaterial = new THREE.MeshLambertMaterial ( { map: fleshTexture, side: THREE.DoubleSide } );
+    fleshMaterial = new THREE.MeshLambertMaterial ( { map: fleshTextureClone, side: THREE.DoubleSide } );
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
     // fleshMesh.add( sound1 );
     scene.add( fleshMesh );
