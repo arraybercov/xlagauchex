@@ -225,7 +225,7 @@ function onDocumentMouseDown( event ) {
 
       time = Date.now( ) * 0.0005;
 
-if ( fleshMesh ){
+if ( fleshTexture && fleshMesh && laptopv  ){
       fleshMesh.rotation.x += 0.02;
       fleshMesh.rotation.y += 0.005;
       fleshMesh.scale.set(Math.sin( time * 2 ) * 0.08 + 0.95, Math.cos( time * 8) * 0.08 + 0.95, Math.sin( time * 7) * 0.08 + 0.95);
