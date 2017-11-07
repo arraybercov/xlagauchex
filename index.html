@@ -263,7 +263,7 @@ if ( fleshTexture && fleshMesh && laptopv  ){
      //   laptopv.children[0].children[6].material.opacity = Math.cos ( time * 2 ) * 0.5 + 0.9;
      // }
 
-      if ( playButton ) {
+      if ( playButton && cubeCamera2 ) {
       playButton.children[0].rotation.z = Math.sin ( time * 1 ) * 0.6;
       playButton.children[0].rotation.y = Math.sin ( time * 1 ) * 0.4;
       playButton.children[0].rotation.x += Math.cos ( time * 1 ) * 0.02;
