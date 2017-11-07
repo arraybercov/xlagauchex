@@ -121,7 +121,7 @@ if ( fleshTextureClone ) {
     fleshAudioSender.add( sound1 );
     scene.add( fleshAudioSender );
 
-    fleshGeometry = new THREE.IcosahedronBufferGeometry( 1, 1);
+    fleshGeometry = new THREE.IcosahedronGeometry( 1, 1);
     fleshMaterial = new THREE.MeshLambertMaterial ( { map: fleshTextureClone, side: THREE.DoubleSide } );
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
     // fleshMesh.add( sound1 );
