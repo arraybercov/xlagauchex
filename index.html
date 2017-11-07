@@ -65,8 +65,10 @@ if ( fleshTexture ) {
 	fleshTextureClone = fleshTexture.clone( );
       fleshTextureClone.needsUpdate = true;
   }
+	
+if ( scene ){
   fleshHeight = new THREE.TextureLoader( ).load( 'textures/internalFleshBumpMap.jpg' );
-
+}
 
   loader = new THREE.ObjectLoader( );
   loader.load( 'models/laptop/laptopNoScreen.json', function ( laptop )
