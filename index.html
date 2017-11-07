@@ -59,9 +59,10 @@ function init( )
   scene.add( cubeCamera2 );
 
   fleshTexture = new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' );
-  fleshTextureClone = fleshTexture.clone( );
+  
 
-if ( fleshTexture && fleshTextureClone && laptopv ) {
+if ( fleshTexture ) {
+	fleshTextureClone = fleshTexture.clone( );
       fleshTextureClone.needsUpdate = true;
   }
   fleshHeight = new THREE.TextureLoader( ).load( 'textures/internalFleshBumpMap.jpg' );
