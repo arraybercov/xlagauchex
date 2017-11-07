@@ -59,12 +59,7 @@ function init( )
   scene.add( cubeCamera2 );
 
   fleshTexture = new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' );
-  
-
-if ( fleshTexture ) {
-	fleshTextureClone = fleshTexture.clone( );
-//       fleshTextureClone.needsUpdate = true;
-  }
+  fleshTextureClone = fleshTexture.clone( );
 	
   fleshHeight = new THREE.TextureLoader( ).load( 'textures/internalFleshBumpMap.jpg' );
 
@@ -123,6 +118,7 @@ if ( fleshTexture ) {
     scene.add( fleshAudioSender );
 
     fleshGeometry = new THREE.IcosahedronGeometry( 1, 1);
+    fleshTextureClone.needsUpdate = true;
     fleshMaterial = new THREE.MeshLambertMaterial ( { map: fleshTextureClone, side: THREE.DoubleSide } );
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
     // fleshMesh.add( sound1 );
