@@ -41,6 +41,8 @@ var playButton, objLoader;
 var fleshAudioSender;
 var screenDisplay;
 var fleshTexture, fleshTextureClone, fleshHeight;
+var clock, delta, time, oldTime;
+
 
 
 
@@ -49,6 +51,11 @@ animate( );
 
 function init( )
   {
+    clock = new THREE.Clock( );
+
+    // time = 0;
+
+
     camera = new THREE.PerspectiveCamera ( 75, window.innerWidth / window.innerHeight, 0.2, 1000 );
     camera.position.z = 3;
     camera.position.x = -1;
@@ -218,11 +225,16 @@ function onDocumentMouseUp( event ) {
 function onDocumentMouseDown( event ) {
     // event.preventDefault( );
     if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
-        if( !sound1.isPlaying ) {
-          sound1.play( );
+        if( !clock.running ) {
+          // clock.autoStart = true;
+          // clock.getDelta = oldTime;
+          // clock.autoStart( );
+          clock.running = true;
         }
         else {
-          sound1.stop( );
+          clock.stop( );
+          // clock.running = false;
+          // clock.autoStart = true;
         }
     }
 }
@@ -231,7 +243,13 @@ function onDocumentMouseDown( event ) {
 
       requestAnimationFrame( animate );
 
-      var time = Date.now( ) * 0.0005;
+      // time = Date.now( ) * 0.0005;
+
+      delta = clock.getDelta( );
+
+      time = clock.getElapsedTime( );
+
+      oldTime = clock.oldTime
 
 if (  fleshMesh ) {
       fleshMesh.rotation.x += 0.02;
