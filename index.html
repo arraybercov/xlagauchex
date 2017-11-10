@@ -13,9 +13,10 @@
 </head>
 <body>
 
-  <script src="js/three.js"></script>
-  <script src="js/OBJLoader.js"></script>
+  <script src="js/three.min.js"></script>
+  <!-- <script src="js/OBJLoader.js"></script> -->
   <script src="js/OrbitControls.js"></script>
+  <!-- <script src="js/CinematicCamera.js"></script> -->
 
   <!-- <video id="screen" autoplay loop muted playsinline style="display:none"
       src="video/fleshVid3.mp4" type="video/mp4">
@@ -161,11 +162,16 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer ) // load a sound and se
     scene.add( linkMesh1 );
     clickableObjects.push( linkMesh1 );
 
-    renderer = new THREE.WebGLRenderer ( { antialias:true } );
+    renderer = new THREE.WebGLRenderer ( { antialias:false } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild ( renderer.domElement );
     controls = new THREE.OrbitControls( camera, renderer.domElement );
+    controls.enablePan = false;
+    controls.enableKeys = true;
+    controls.maxDistance = 70;
+    controls.minDistance = 0.3;
+
 
     document.addEventListener( 'mouseup', onDocumentMouseUp, false );
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
