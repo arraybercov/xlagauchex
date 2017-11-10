@@ -26,10 +26,11 @@
 
 "use strict";
 
-var scene, camera, renderer, controls;
+var scene, camera, renderer, controls, time;
 var width, height;
 var loader;
 var fleshGeometry, fleshMaterial, fleshMesh;
+var textureLoader;
 var ceilingGeometry, ceilingMaterial, ceilingMesh;
 var sphereGeometryLink1, sphereGeometryMaterial, linkMesh1;
 var ambientLight, light1, light2, light3
@@ -38,11 +39,15 @@ var clickableObjects;
 var mouse, raycaster, intersects;
 var cubeCamera2;
 var laptopv, laptopScreen;
-var playButton, objLoader;
+var playButton;
 var fleshAudioSender;
 var screenDisplay;
 var fleshTexture, fleshTextureClone, fleshHeight;
 
+var manager = THREE.DefaultLoadingManager;
+manager.onProgress = function ( item, loaded, total ) {
+console.log( item, loaded, total );
+};
 
 
 init( );
@@ -61,19 +66,11 @@ function init( )
     cubeCamera2.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
     scene.add( cubeCamera2 );
 
-    fleshTexture = new THREE.TextureLoader( ).load( 'textures/internalFlesh2048Po2.jpg' );
-//     fleshTextureClone = fleshTexture.clone( );
-//     fleshTextureClone.needsUpdate = true;
-//
-// while ( fleshTexture.image.complete === false );
-// fleshTextureClone.needsUpdate = true;
-//
-// if ( fleshTexture.image.complete === false ) { }
-// else { fleshTextureClone.needsUpdate = true; }
+    textureLoader = new THREE.TextureLoader( manager );
+    fleshTexture = textureLoader.load( 'textures/internalFlesh2048Po2.jpg' );
+    fleshHeight = textureLoader.load( 'textures/internalFleshBumpMap.jpg' );
 
-    fleshHeight = new THREE.TextureLoader( ).load( 'textures/internalFleshBumpMap.jpg' );
-
-    loader = new THREE.ObjectLoader( );
+    loader = new THREE.ObjectLoader( manager );
     loader.load( 'models/laptop/laptopNoScreen.json', function ( laptop )
   {
 laptopv = laptop;
@@ -87,9 +84,6 @@ laptopv.children[0].children[6].material = new THREE.MeshPhongMaterial ( {
     laptopv.position.set( 0, -4, 12 );
     laptopv.scale.set( 4, 4, 4);
     scene.add( laptopv );
-    // laptopScreen = laptopv.children[0].children[3].clone();
-    // laptopv.children[0].add(laptopScreen)
-    // scene.add( laptopScreen )
   }
 );
 
@@ -98,7 +92,7 @@ clickableObjects = [];
 listener = new THREE.AudioListener( );
 camera.add( listener );
 sound1 = new THREE.PositionalAudio( listener );
-audioLoader = new THREE.AudioLoader( );
+audioLoader = new THREE.AudioLoader( manager );
 audioLoader.load( 'sounds/Love_1.mp3', function( buffer ) // load a sound and set it as the PositionalAudio object's buffer
     {
   	   sound1.setBuffer( buffer );
@@ -107,11 +101,8 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer ) // load a sound and se
   );
 
   sound1.hasPlaybackControl = true;
-  // sound1.autoplay = true;
-  // sound1.play( );
 
-    objLoader = new THREE.ObjectLoader( );
-    objLoader.load( 'models/high-res-button.json', function ( button ) {
+    loader.load( 'models/high-res-button.json', function ( button ) {
       playButton = button;
       playButton.children[0].material = new THREE.MeshPhongMaterial( { color: 0xffffff, envMap: cubeCamera2.renderTarget.texture } );
       clickableObjects.push( playButton.children[0] );
@@ -131,15 +122,14 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer ) // load a sound and se
 
     fleshMaterial = new THREE.MeshLambertMaterial ( { map: fleshTexture, side: THREE.DoubleSide } );
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
-    // fleshMesh.add( sound1 );
     scene.add( fleshMesh );
 
     ceilingGeometry = new THREE.PlaneGeometry( 10, 10 );
-    ceilingMaterial = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader( ).load ( 'textures/cloudsPo2.jpg' ), side:
+    ceilingMaterial = new THREE.MeshPhongMaterial( { map: textureLoader.load ( 'textures/cloudsPo2.jpg' ), side:
     THREE.DoubleSide } );
     ceilingMesh = new THREE.Mesh( ceilingGeometry, ceilingMaterial );
     ceilingMesh.position.y = 1.5;
-    ceilingMesh.rotation.x = Math.PI / 2; // rotates object 90 degrees
+    ceilingMesh.rotation.x = Math.PI / 2;
     scene.add( ceilingMesh );
     clickableObjects.push( ceilingMesh );
 
@@ -172,7 +162,6 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer ) // load a sound and se
     controls.maxDistance = 70;
     controls.minDistance = 0.3;
 
-
     document.addEventListener( 'mouseup', onDocumentMouseUp, false );
     document.addEventListener( 'mousedown', onDocumentMouseDown, false );
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
@@ -198,10 +187,11 @@ function onDocumentMouseMove( event ) {
 
     if( intersects.length > 0 && intersects[0].object == linkMesh1 ) {
         sphereGeometryMaterial.color.set(0xff00ff);
+        // linkMesh1.scale.set(1, 1, 1);
       }
     else
       {
-        linkMesh1.rotation.x += 0.1;
+        // linkMesh1.scale.set(0.6, 0.6, 3);
         sphereGeometryMaterial.color.set(0xffffff);
       }
       if ( playButton ) {
@@ -237,7 +227,7 @@ function onDocumentMouseDown( event ) {
 
       requestAnimationFrame( animate );
 
-      var time = Date.now( ) * 0.0005;
+      time = Date.now( ) * 0.0005;
 
 if (  fleshMesh ) {
       fleshMesh.rotation.x += 0.02;
@@ -246,6 +236,8 @@ if (  fleshMesh ) {
 }
 
       linkMesh1.rotation.y += 0.005;
+      linkMesh1.rotation.x += 0.002;
+      linkMesh1.rotation.z += 0.006;
 
       light1.position.x = Math.sin( time * 2) * 30;
       light1.position.y = Math.cos( time * 8) * 40;
@@ -289,6 +281,7 @@ if (  fleshMesh ) {
     }
       renderer.render( scene, camera );
   }
+
       </script>
   </body>
 </html>
