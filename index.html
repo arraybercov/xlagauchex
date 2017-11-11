@@ -44,10 +44,10 @@ var fleshAudioSender;
 var screenDisplay;
 var fleshTexture, fleshTextureClone, fleshHeight;
 
-var manager = THREE.DefaultLoadingManager;
-manager.onProgress = function ( item, loaded, total ) {
-console.log( item, loaded, total );
-};
+// var manager = THREE.DefaultLoadingManager;
+// manager.onProgress = function ( item, loaded, total ) {
+// console.log( item, loaded, total );
+// };
 
 init( );
 animate( );
@@ -65,11 +65,11 @@ function init( )
     cubeCamera2.renderTarget.texture.minFilter = THREE.LinearMipMapLinearFilter;
     scene.add( cubeCamera2 );
 
-    textureLoader = new THREE.TextureLoader( manager );
+    textureLoader = new THREE.TextureLoader( );
     fleshTexture = textureLoader.load( 'textures/internalFlesh2048Po2.jpg' );
     fleshHeight = textureLoader.load( 'textures/internalFleshBumpMap.jpg' );
 
-    loader = new THREE.ObjectLoader( manager );
+    loader = new THREE.ObjectLoader( );
     loader.load( 'models/laptop/laptopNoScreen.json', function ( laptop )
   {
 laptopv = laptop;
@@ -91,7 +91,7 @@ clickableObjects = [];
 listener = new THREE.AudioListener( );
 camera.add( listener );
 sound1 = new THREE.PositionalAudio( listener );
-audioLoader = new THREE.AudioLoader( manager );
+audioLoader = new THREE.AudioLoader( );
 audioLoader.load( 'sounds/Love_1.mp3', function( buffer ) // load a sound and set it as the PositionalAudio object's buffer
     {
   	   sound1.setBuffer( buffer );
