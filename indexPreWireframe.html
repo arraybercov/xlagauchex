@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
   <title>xlagauchex</title>
   <style>
@@ -15,14 +14,19 @@
 <body>
 
   <script src="js/three.min.js"></script>
+  <!-- <script src="js/OBJLoader.js"></script> -->
   <script src="js/OrbitControls.js"></script>
-  <script src="js/GPUParticleSystem.js"></script>
+  <!-- <script src="js/CinematicCamera.js"></script> -->
+
+  <!-- <video id="screen" autoplay loop muted playsinline style="display:none"
+      src="video/fleshVid3.mp4" type="video/mp4">
+  </video> -->
 
   <script>
 
 "use strict";
 
-var scene, camera, renderer, controls;
+var scene, camera, renderer, controls, time;
 var width, height;
 var loader;
 var fleshGeometry, fleshMaterial, fleshMesh;
@@ -39,9 +43,11 @@ var playButton;
 var fleshAudioSender;
 var screenDisplay;
 var fleshTexture, fleshTextureClone, fleshHeight;
-var particleSystem, options, spawnerOptions;
-var clock = new THREE.Clock();
-var tick = 0;
+
+// var manager = THREE.DefaultLoadingManager;
+// manager.onProgress = function ( item, loaded, total ) {
+// console.log( item, loaded, total );
+// };
 
 init( );
 animate( );
@@ -61,16 +67,21 @@ function init( )
 
     textureLoader = new THREE.TextureLoader( );
     fleshTexture = textureLoader.load( 'textures/internalFlesh1024Po2.jpg' );
-    fleshHeight = textureLoader.load( 'textures/internalFleshNormalMap.jpg' );
+    fleshHeight = textureLoader.load( 'textures/internalFleshBumpMap.jpg' );
 
     loader = new THREE.ObjectLoader( );
     loader.load( 'models/laptop/laptopNoScreen.json', function ( laptop )
   {
 laptopv = laptop;
+// screenDisplay = document.getElementById( 'screen' );
+// laptopv.children[0].children[6].material = new THREE.MeshBasicMaterial( { map: new THREE.VideoTexture( screenDisplay ), side: THREE.DoubleSide } );
+// laptopv.children[0].children[6].material.map.minFilter = THREE.LinearFilter;
+// laptopv.children[0].children[6].material.map.magFilter = THREE.LinearFilter;
+// laptopv.children[0].children[6].material.map.format = THREE.RGBFormat;
 laptopv.children[0].children[6].material = new THREE.MeshPhongMaterial ( {
-    map: fleshTexture, normalMap: fleshHeight, normalScale: new THREE.Vector2( 10, 10 ), shininess: 40, side: THREE.BackSide } );
+    map: fleshTexture, bumpMap: fleshHeight, bumpScale: 1, shininess: 8, side: THREE.BackSide } );
     laptopv.position.set( 0, -4, 12 );
-    laptopv.scale.set( 4, 4, 4 );
+    laptopv.scale.set( 4, 4, 4);
     scene.add( laptopv );
   }
 );
@@ -81,7 +92,7 @@ listener = new THREE.AudioListener( );
 camera.add( listener );
 sound1 = new THREE.PositionalAudio( listener );
 audioLoader = new THREE.AudioLoader( );
-audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
+audioLoader.load( 'sounds/Love_1.mp3', function( buffer ) // load a sound and set it as the PositionalAudio object's buffer
     {
   	   sound1.setBuffer( buffer );
   	   sound1.setRefDistance( 4 );
@@ -108,10 +119,9 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
 
     fleshGeometry = new THREE.IcosahedronGeometry( 1, 1);
 
-    fleshMaterial = new THREE.MeshPhongMaterial ( { map: fleshTexture, wireframe: true, side: THREE.DoubleSide } );
+    fleshMaterial = new THREE.MeshLambertMaterial ( { map: fleshTexture, side: THREE.DoubleSide } );
     fleshMesh = new THREE.Mesh( fleshGeometry, fleshMaterial );
     scene.add( fleshMesh );
-    clickableObjects.push( fleshMesh );
 
     ceilingGeometry = new THREE.PlaneGeometry( 10, 10 );
     ceilingMaterial = new THREE.MeshPhongMaterial( { map: textureLoader.load ( 'textures/cloudsPo2.jpg' ), side:
@@ -122,8 +132,9 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
     scene.add( ceilingMesh );
     clickableObjects.push( ceilingMesh );
 
-    ambientLight = new THREE.AmbientLight( 0xFFFFFF, 1.1 );
+    ambientLight = new THREE.AmbientLight( 0xFFFFFF, 0.8 );
     light1 = new THREE.PointLight ( 0xFFFFFF, 1, 50 );
+    // light2 = new THREE.PointLight ( 0xFFFFFF, 1, 50 );
     light3 = new THREE.PointLight ( 0xFF00FFF, 1, 50 );
 
     scene.add( ambientLight );
@@ -139,31 +150,6 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
     linkMesh1.name = "soundcloudObject";
     scene.add( linkMesh1 );
     clickableObjects.push( linkMesh1 );
-
-    particleSystem = new THREE.GPUParticleSystem( {
-				maxParticles: 250000,
-			} );
-
-    scene.add( particleSystem );
-
-    options = {
-				position: new THREE.Vector3(),
-				positionRandomness: .3,
-				velocity: new THREE.Vector3(),
-				velocityRandomness: 1,
-				color: 0xFF69B4,
-				colorRandomness: 0,
-				turbulence: .5,
-				lifetime: 4,
-				size: 5,
-				sizeRandomness: 1
-			};
-			spawnerOptions = {
-				spawnRate: 15000,
-				horizontalSpeed: 1.5,
-				verticalSpeed: 1.33,
-				timeScale: 0.8
-			};
 
     renderer = new THREE.WebGLRenderer ( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
@@ -184,10 +170,10 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
 
 function onWindowResize( )
 {
+  renderer.setSize( window.innerWidth, window.innerHeight );
+
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix( );
-
-  renderer.setSize( window.innerWidth, window.innerHeight );
 }
 
 function onDocumentMouseMove( event ) {
@@ -215,15 +201,6 @@ function onDocumentMouseMove( event ) {
           playButton.children[0].material.color.set(0xffffff);
         }
       }
-      if( intersects.length > 0 && intersects[0].object == fleshMesh ) {
-          fleshMesh.material.wireframe = false;
-          spawnerOptions.timeScale = -0.2;
-        }
-      else
-        {
-          fleshMesh.material.wireframe = true;
-          spawnerOptions.timeScale = 0.8;
-        }
 }
 
 function onDocumentMouseUp( event ) {
@@ -234,7 +211,7 @@ function onDocumentMouseUp( event ) {
 }
 
 function onDocumentMouseDown( event ) {
-    event.preventDefault( );
+    // event.preventDefault( );
     if( intersects.length > 0 && intersects[0].object == playButton.children[0] ) {
         if( !sound1.isPlaying ) {
           sound1.play( );
@@ -249,21 +226,7 @@ function onDocumentMouseDown( event ) {
 
       requestAnimationFrame( animate );
 
-      // time = Date.now( ) * 0.0005;
-      var delta = clock.getDelta() * spawnerOptions.timeScale;
-      var time = 0.45 * clock.getElapsedTime();
-
-      tick += delta;
-      			if ( tick < 0 ) tick = 0;
-            if ( delta > 0 ) {
-				options.position.x = Math.sin( tick * spawnerOptions.horizontalSpeed ) * 20;
-				options.position.y = Math.sin( tick * spawnerOptions.verticalSpeed ) * 10;
-				options.position.z = Math.sin( tick * spawnerOptions.horizontalSpeed + spawnerOptions.verticalSpeed ) * 5;
-				for ( var x = 0; x < spawnerOptions.spawnRate * delta; x++ ) {
-					particleSystem.spawnParticle( options );
-				}
-			}
-			particleSystem.update( tick );
+      time = Date.now( ) * 0.0005;
 
 if (  fleshMesh ) {
       fleshMesh.rotation.x += 0.02;

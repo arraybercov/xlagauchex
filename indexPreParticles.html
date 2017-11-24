@@ -16,13 +16,12 @@
 
   <script src="js/three.min.js"></script>
   <script src="js/OrbitControls.js"></script>
-  <script src="js/GPUParticleSystem.js"></script>
 
   <script>
 
 "use strict";
 
-var scene, camera, renderer, controls;
+var scene, camera, renderer, controls, time;
 var width, height;
 var loader;
 var fleshGeometry, fleshMaterial, fleshMesh;
@@ -39,9 +38,6 @@ var playButton;
 var fleshAudioSender;
 var screenDisplay;
 var fleshTexture, fleshTextureClone, fleshHeight;
-var particleSystem, options, spawnerOptions;
-var clock = new THREE.Clock();
-var tick = 0;
 
 init( );
 animate( );
@@ -68,7 +64,7 @@ function init( )
   {
 laptopv = laptop;
 laptopv.children[0].children[6].material = new THREE.MeshPhongMaterial ( {
-    map: fleshTexture, normalMap: fleshHeight, normalScale: new THREE.Vector2( 10, 10 ), shininess: 40, side: THREE.BackSide } );
+    map: fleshTexture, normalMap: fleshHeight, normalScale: new THREE.Vector2( 5, 5 ), shininess: 40, side: THREE.BackSide } );
     laptopv.position.set( 0, -4, 12 );
     laptopv.scale.set( 4, 4, 4 );
     scene.add( laptopv );
@@ -140,31 +136,6 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
     scene.add( linkMesh1 );
     clickableObjects.push( linkMesh1 );
 
-    particleSystem = new THREE.GPUParticleSystem( {
-				maxParticles: 250000,
-			} );
-
-    scene.add( particleSystem );
-
-    options = {
-				position: new THREE.Vector3(),
-				positionRandomness: .3,
-				velocity: new THREE.Vector3(),
-				velocityRandomness: 1,
-				color: 0xFF69B4,
-				colorRandomness: 0,
-				turbulence: .5,
-				lifetime: 4,
-				size: 5,
-				sizeRandomness: 1
-			};
-			spawnerOptions = {
-				spawnRate: 15000,
-				horizontalSpeed: 1.5,
-				verticalSpeed: 1.33,
-				timeScale: 0.8
-			};
-
     renderer = new THREE.WebGLRenderer ( { antialias: true } );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -217,12 +188,12 @@ function onDocumentMouseMove( event ) {
       }
       if( intersects.length > 0 && intersects[0].object == fleshMesh ) {
           fleshMesh.material.wireframe = false;
-          spawnerOptions.timeScale = -0.2;
+          // linkMesh1.scale.set(1, 1, 1);
         }
       else
         {
+          // linkMesh1.scale.set(0.6, 0.6, 3);
           fleshMesh.material.wireframe = true;
-          spawnerOptions.timeScale = 0.8;
         }
 }
 
@@ -249,21 +220,7 @@ function onDocumentMouseDown( event ) {
 
       requestAnimationFrame( animate );
 
-      // time = Date.now( ) * 0.0005;
-      var delta = clock.getDelta() * spawnerOptions.timeScale;
-      var time = 0.45 * clock.getElapsedTime();
-
-      tick += delta;
-      			if ( tick < 0 ) tick = 0;
-            if ( delta > 0 ) {
-				options.position.x = Math.sin( tick * spawnerOptions.horizontalSpeed ) * 20;
-				options.position.y = Math.sin( tick * spawnerOptions.verticalSpeed ) * 10;
-				options.position.z = Math.sin( tick * spawnerOptions.horizontalSpeed + spawnerOptions.verticalSpeed ) * 5;
-				for ( var x = 0; x < spawnerOptions.spawnRate * delta; x++ ) {
-					particleSystem.spawnParticle( options );
-				}
-			}
-			particleSystem.update( tick );
+      time = Date.now( ) * 0.0005;
 
 if (  fleshMesh ) {
       fleshMesh.rotation.x += 0.02;
