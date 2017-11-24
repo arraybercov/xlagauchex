@@ -29,7 +29,7 @@ var fleshGeometry, fleshMaterial, fleshMesh;
 var textureLoader;
 var ceilingGeometry, ceilingMaterial, ceilingMesh;
 var sphereGeometryLink1, sphereGeometryMaterial, linkMesh1;
-var ambientLight, light1, light2, light3
+var ambientLight, light1, light3
 var listener, sound1, audioLoader;
 var clickableObjects;
 var mouse, raycaster, intersects;
@@ -128,7 +128,6 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
 
     scene.add( ambientLight );
     scene.add( light1 );
-    // scene.add( light2 );
     scene.add( light3 );
 
     sphereGeometryLink1 = new THREE.SphereBufferGeometry( 1, 12, 2 );
@@ -200,11 +199,9 @@ function onDocumentMouseMove( event ) {
 
     if( intersects.length > 0 && intersects[0].object == linkMesh1 ) {
         sphereGeometryMaterial.color.set(0xff00ff);
-        // linkMesh1.scale.set(1, 1, 1);
       }
     else
       {
-        // linkMesh1.scale.set(0.6, 0.6, 3);
         sphereGeometryMaterial.color.set(0xffffff);
       }
       if ( playButton ) {
@@ -249,7 +246,6 @@ function onDocumentMouseDown( event ) {
 
       requestAnimationFrame( animate );
 
-      // time = Date.now( ) * 0.0005;
       var delta = clock.getDelta() * spawnerOptions.timeScale;
       var time = 0.45 * clock.getElapsedTime();
 
@@ -279,10 +275,6 @@ if (  fleshMesh ) {
       light1.position.y = Math.cos( time * 8) * 40;
       light1.position.z = Math.cos( time * 4) * 30;
 
-      // light2.position.x = Math.cos( time * 2) * 1;
-      // light2.position.y = Math.sin( time * 7) * 40;
-      // light2.position.z = Math.sin( time * 10) * 30;
-
       light3.position.x = Math.sin( time * 3) * 30;
       light3.position.y = Math.cos( time * 4) * 40;
       light3.position.z = Math.sin( time * 5) * 30;
@@ -298,10 +290,6 @@ if (  fleshMesh ) {
         Math.sin( time * 1.3 ) * 0.3);
 
   ceilingMesh.geometry.verticesNeedUpdate = true;
-
-     // if ( laptopv ) {
-     //   laptopv.children[0].children[6].material.opacity = Math.cos ( time * 2 ) * 0.5 + 0.9;
-     // }
 
       if ( playButton ) {
       playButton.children[0].rotation.z = Math.sin ( time * 1 ) * 0.6;
