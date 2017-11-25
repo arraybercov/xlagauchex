@@ -131,7 +131,7 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
     scene.add( light3 );
 
     sphereGeometryLink1 = new THREE.SphereBufferGeometry( 1, 12, 2 );
-    sphereGeometryMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, envMap: cubeCamera2.renderTarget.texture } );
+    sphereGeometryMaterial = new THREE.MeshPhongMaterial( { color: 0xffffff, shininess: 80, envMap: cubeCamera2.renderTarget.texture } );
     linkMesh1 = new THREE.Mesh( sphereGeometryLink1, sphereGeometryMaterial );
     linkMesh1.userData = { URL: "https://soundcloud.com/lagauche" };
     linkMesh1.position.y = 3;
@@ -198,7 +198,7 @@ function onDocumentMouseMove( event ) {
 		intersects = raycaster.intersectObjects( clickableObjects, false );
 
     if( intersects.length > 0 && intersects[0].object == linkMesh1 ) {
-        sphereGeometryMaterial.color.set(0xff00ff);
+        sphereGeometryMaterial.color.set(0xff70ff);
       }
     else
       {
