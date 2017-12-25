@@ -140,7 +140,7 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
     clickableObjects.push( linkMesh1 );
 
     particleSystem = new THREE.GPUParticleSystem( {
-				maxParticles: 7500,
+				maxParticles: 25000,
 			} );
 
     scene.add( particleSystem );
@@ -158,7 +158,7 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
 				sizeRandomness: 1
 			};
 			spawnerOptions = {
-				spawnRate: 15000,
+				spawnRate: 7500,
 				horizontalSpeed: 1.5,
 				verticalSpeed: 1.33,
 				timeScale: 0.8
