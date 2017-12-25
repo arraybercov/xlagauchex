@@ -140,7 +140,7 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
     clickableObjects.push( linkMesh1 );
 
     particleSystem = new THREE.GPUParticleSystem( {
-				maxParticles: 250000,
+				maxParticles: 7500,
 			} );
 
     scene.add( particleSystem );
@@ -153,7 +153,7 @@ audioLoader.load( 'sounds/Love_1.mp3', function( buffer )
 				color: 0xFF69B4,
 				colorRandomness: 0,
 				turbulence: .5,
-				lifetime: 4,
+				lifetime: 3,
 				size: 5,
 				sizeRandomness: 1
 			};
